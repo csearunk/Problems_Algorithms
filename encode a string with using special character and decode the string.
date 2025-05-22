@@ -1,0 +1,46 @@
+//encode a string with using special character and decode the string.
+
+#include<iostream>
+#include<string>
+#include<vector>
+std::string encode(std::vector<std::string> strVec) {
+    if(strVec.size()<1) return "";
+    
+    std::string encodeStr{};
+    
+    for(auto str : strVec) {
+        encodeStr += std::to_string(str.length())+"#"+str;
+    }
+    return encodeStr;
+    
+}
+
+std::vector<std::string> decode(std::string encodedStr) {
+    int len = encodedStr.size();
+    std::vector<std::string> answer{};
+    if(len < 1) return answer;
+    int  i = 0;
+    
+    while(i<len) {
+        int j = i;
+        while(encodedStr[j] != '#') {
+            j++;
+        }
+        int subLen = stoi(encodedStr.substr(i, j-i));
+        
+        answer.push_back(encodedStr.substr(j+1, subLen));
+         i  = j+1+subLen;
+    }
+    return answer;
+}
+
+int main() {
+    std::vector<std::string> sample{{"kumar"}, {"arun"}};
+    std::string result = encode(sample);
+    std::cout<<"encoded : "<<result<<std::endl;
+    std::vector<std::string> linearString = decode(result);
+    for(auto str : linearString) {
+        std::cout<<"decoded : "<<str<<std::endl;
+    }
+    return 0;
+}
